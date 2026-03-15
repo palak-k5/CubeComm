@@ -1,0 +1,159 @@
+<div class="page-header">
+  <div>
+    <div class="breadcrumb-wrap"><a href="#" data-page="dashboard">Home</a><span class="sep">/</span><span>Categories</span></div>
+    <h1 class="page-title">Categories</h1>
+    <p class="page-subtitle">Organize your products into categories.</p>
+  </div>
+  <button class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#categoryModal" id="openCreateCat">
+    <i class="fa-solid fa-plus"></i> New Category
+  </button>
+</div>
+
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Category Name</th>
+        <th>Description</th>
+        <th>Total Products</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="categoriesBody">
+    </tbody>
+  </table>
+  <div class="pagination-wrap" id="catPagination"></div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="catModalTitle">Create Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editCatId">
+        <div class="form-group">
+          <label class="form-label-custom">Category Name *</label>
+          <input type="text" class="form-control-custom" id="catName" placeholder="e.g. Electronics">
+        </div>
+        <div class="form-group">
+          <label class="form-label-custom">Description</label>
+          <textarea class="form-control-custom" id="catDesc" placeholder="Brief description…"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-custom" id="saveCatBtn"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Category Modal -->
+<div class="modal fade" id="deleteCatModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red);margin-right:8px;"></i>Delete Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); font-size:14px;">Are you sure you want to delete <strong style="color:var(--text);" id="deleteCatName">this category</strong>? All associated products will become uncategorized.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-custom" style="background:var(--red);" id="confirmDeleteCat">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  let categories = [
+    { id:1, name:'Electronics', desc:'Devices, gadgets, and tech accessories', products:84 },
+    { id:2, name:'Clothing', desc:'Apparel, shoes, and wearables', products:132 },
+    { id:3, name:'Furniture', desc:'Home and office furniture', products:47 },
+    { id:4, name:'Accessories', desc:'Bags, wallets, and lifestyle items', products:93 },
+    { id:5, name:'Books', desc:'Physical and digital publications', products:210 },
+    { id:6, name:'Sports', desc:'Equipment and apparel for sports', products:68 },
+  ];
+  let nextId = 7, currentPage = 1, perPage = 5;
+  let deletingId = null;
+
+  function render(page) {
+    currentPage = page;
+    const start = (page-1)*perPage, end = start+perPage;
+    const paged = categories.slice(start, end);
+    const tbody = $('#categoriesBody');
+    tbody.empty();
+    paged.forEach(c => {
+      tbody.append(`
+        <tr>
+          <td><span style="font-weight:500;">${c.name}</span></td>
+          <td class="text-muted-custom">${c.desc}</td>
+          <td><span style="font-family:var(--font-mono);color:var(--accent);">${c.products}</span></td>
+          <td><div class="action-cell">
+            <button class="btn-icon edit-cat" data-id="${c.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-icon danger del-cat" data-id="${c.id}" data-name="${c.name}" title="Delete"><i class="fa-solid fa-trash"></i></button>
+          </div></td>
+        </tr>
+      `);
+    });
+    renderPagination('#catPagination', categories.length, page, perPage, render);
+  }
+
+  // Open create
+  $('#openCreateCat').click(function(){
+    $('#catModalTitle').text('Create Category');
+    $('#editCatId').val('');
+    $('#catName').val('');
+    $('#catDesc').val('');
+  });
+
+  // Edit
+  $(document).on('click', '.edit-cat', function(){
+    const id = parseInt($(this).data('id'));
+    const cat = categories.find(c => c.id===id);
+    if(!cat) return;
+    $('#catModalTitle').text('Edit Category');
+    $('#editCatId').val(cat.id);
+    $('#catName').val(cat.name);
+    $('#catDesc').val(cat.desc);
+    new bootstrap.Modal(document.getElementById('categoryModal')).show();
+  });
+
+  // Save
+  $('#saveCatBtn').click(function(){
+    const id = parseInt($('#editCatId').val());
+    const name = $('#catName').val().trim();
+    const desc = $('#catDesc').val().trim();
+    if(!name) { $('#catName').focus(); return; }
+    if(id) {
+      const cat = categories.find(c=>c.id===id);
+      if(cat){ cat.name=name; cat.desc=desc; }
+    } else {
+      categories.push({ id:nextId++, name, desc, products:0 });
+    }
+    bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+    render(1);
+  });
+
+  // Delete
+  $(document).on('click', '.del-cat', function(){
+    deletingId = parseInt($(this).data('id'));
+    $('#deleteCatName').text($(this).data('name'));
+    new bootstrap.Modal(document.getElementById('deleteCatModal')).show();
+  });
+  $('#confirmDeleteCat').click(function(){
+    categories = categories.filter(c=>c.id!==deletingId);
+    bootstrap.Modal.getInstance(document.getElementById('deleteCatModal')).hide();
+    render(1);
+  });
+
+  render(1);
+})();
+</script>

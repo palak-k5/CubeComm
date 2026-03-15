@@ -1,0 +1,97 @@
+<a href="#" class="back-link" data-page="products"><i class="fa-solid fa-arrow-left"></i> Back to Products</a>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Product Details</h1>
+    <p class="page-subtitle">View full product information.</p>
+  </div>
+  <div class="filter-bar">
+    <button class="btn-ghost" data-page="product-create"><i class="fa-solid fa-pen"></i> Edit Product</button>
+    <button class="btn-primary-custom" style="background:var(--red);" data-bs-toggle="modal" data-bs-target="#deleteProductModal"><i class="fa-solid fa-trash"></i> Delete</button>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Gallery -->
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-body-custom">
+        <img src="https://picsum.photos/seed/prod1/600/450" class="img-main mb-3" alt="Product Main Image" id="mainProductImg">
+        <div class="img-gallery">
+          <img src="https://picsum.photos/seed/prod1/200/200" class="img-thumb active" data-src="https://picsum.photos/seed/prod1/600/450" alt="">
+          <img src="https://picsum.photos/seed/prod1a/200/200" class="img-thumb" data-src="https://picsum.photos/seed/prod1a/600/450" alt="">
+          <img src="https://picsum.photos/seed/prod1b/200/200" class="img-thumb" data-src="https://picsum.photos/seed/prod1b/600/450" alt="">
+          <img src="https://picsum.photos/seed/prod1c/200/200" class="img-thumb" data-src="https://picsum.photos/seed/prod1c/600/450" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="col-lg-7">
+    <div class="card mb-3">
+      <div class="card-body-custom">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <span class="badge-status badge-active mb-2">Active</span>
+            <h2 style="font-size:20px; font-weight:600; color:var(--text); letter-spacing:-0.3px;">Wireless Headphones Pro</h2>
+            <p style="font-size:13px; color:var(--text-muted);">SKU: WHP-001 &bull; Electronics</p>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:26px; font-weight:700; color:var(--accent);">$149.99</div>
+            <div style="font-size:12px; color:var(--text-muted);">incl. tax</div>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="order-info-grid mb-3">
+          <div class="order-info-item">
+            <span class="order-info-label">Category</span>
+            <span class="order-info-value">Electronics</span>
+          </div>
+          <div class="order-info-item">
+            <span class="order-info-label">Stock</span>
+            <span class="order-info-value">42 units</span>
+          </div>
+          <div class="order-info-item">
+            <span class="order-info-label">Total Sold</span>
+            <span class="order-info-value">1,284</span>
+          </div>
+          <div class="order-info-item">
+            <span class="order-info-label">Created</span>
+            <span class="order-info-value">Jan 12, 2026</span>
+          </div>
+        </div>
+        <hr class="divider">
+        <p class="section-label">Description</p>
+        <p style="font-size:13.5px; color:var(--text-muted); line-height:1.75;">Premium wireless headphones featuring 40-hour battery life, active noise cancellation, and high-fidelity 40mm drivers. Foldable design with premium leather ear cushions for all-day comfort. Compatible with all Bluetooth 5.2 devices.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red);margin-right:8px;"></i>Delete Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); font-size:14px;">Are you sure you want to delete <strong style="color:var(--text);">Wireless Headphones Pro</strong>? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-custom" style="background:var(--red);">Delete Product</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('.img-thumb').click(function(){
+  $('#mainProductImg').attr('src', $(this).data('src'));
+  $('.img-thumb').removeClass('active');
+  $(this).addClass('active');
+});
+</script>

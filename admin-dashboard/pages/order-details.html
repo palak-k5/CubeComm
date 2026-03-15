@@ -1,0 +1,118 @@
+<a href="#" class="back-link" data-page="orders"><i class="fa-solid fa-arrow-left"></i> Back to Orders</a>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Order <span class="font-mono text-accent">#ORD-7821</span></h1>
+    <p class="page-subtitle">Placed on March 15, 2026 at 10:42 AM</p>
+  </div>
+  <div class="filter-bar">
+    <button class="btn-ghost"><i class="fa-solid fa-print"></i> Print</button>
+    <button class="btn-primary-custom"><i class="fa-solid fa-file-invoice"></i> Invoice</button>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Left -->
+  <div class="col-lg-8">
+    <!-- Cart Items -->
+    <div class="card mb-4">
+      <div class="card-header-custom"><span class="card-title">Order Items</span></div>
+      <div class="card-body-custom" style="padding:0;">
+        <table class="data-table">
+          <thead>
+            <tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="d-flex align-items-center gap-3">
+                <img src="https://picsum.photos/seed/p1/200/200" class="product-thumb" alt="">
+                <div><div style="font-weight:500;">Wireless Headphones Pro</div><div style="font-size:12px; color:var(--text-muted);">SKU: WHP-001</div></div>
+              </div></td>
+              <td class="font-mono">$149.99</td>
+              <td>×1</td>
+              <td class="font-mono text-accent">$149.99</td>
+            </tr>
+            <tr>
+              <td><div class="d-flex align-items-center gap-3">
+                <img src="https://picsum.photos/seed/p4/200/200" class="product-thumb" alt="">
+                <div><div style="font-weight:500;">Leather Wallet Slim</div><div style="font-size:12px; color:var(--text-muted);">SKU: LWS-004</div></div>
+              </div></td>
+              <td class="font-mono">$45.00</td>
+              <td>×2</td>
+              <td class="font-mono text-accent">$90.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card mb-4">
+      <div class="card-header-custom"><span class="card-title">Order Summary</span></div>
+      <div class="card-body-custom">
+        <div class="summary-row"><span>Subtotal</span><span class="font-mono">$239.99</span></div>
+        <div class="summary-row"><span>Shipping</span><span class="font-mono">$8.50</span></div>
+        <div class="summary-row"><span>Tax (8%)</span><span class="font-mono">$19.20</span></div>
+        <div class="summary-row"><span>Discount</span><span class="font-mono" style="color:var(--green);">–$143.69</span></div>
+        <div class="summary-row" style="margin-top:8px; padding-top:12px; border-top:1px solid var(--border);"><span>Total</span><span class="font-mono" style="font-size:18px; color:var(--accent);">$124.00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right -->
+  <div class="col-lg-4">
+    <!-- Status -->
+    <div class="card mb-3">
+      <div class="card-header-custom"><span class="card-title">Order Status</span></div>
+      <div class="card-body-custom">
+        <div class="mb-3"><span class="badge-status badge-delivered" style="font-size:13px; padding:6px 14px;">Delivered</span></div>
+        <p class="section-label">Update Status</p>
+        <div class="status-controls">
+          <button class="status-ctrl-btn">Pending</button>
+          <button class="status-ctrl-btn">Processing</button>
+          <button class="status-ctrl-btn">Shipped</button>
+          <button class="status-ctrl-btn active-ctrl">Delivered</button>
+          <button class="status-ctrl-btn">Cancelled</button>
+        </div>
+        <button class="btn-primary-custom w-100 justify-content-center mt-3" style="padding:10px;">Save Status</button>
+      </div>
+    </div>
+
+    <!-- Customer Info -->
+    <div class="card mb-3">
+      <div class="card-header-custom"><span class="card-title">Customer</span></div>
+      <div class="card-body-custom">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img src="https://i.pravatar.cc/48?img=1" class="rounded-circle" style="width:44px;height:44px;object-fit:cover;border:2px solid var(--border);" alt="">
+          <div>
+            <div style="font-weight:600; color:var(--text);">Sarah Johnson</div>
+            <div style="font-size:12px; color:var(--text-muted);">Member since Jan 2025</div>
+          </div>
+        </div>
+        <div class="order-info-grid" style="grid-template-columns:1fr;">
+          <div class="order-info-item"><span class="order-info-label">Email</span><span class="order-info-value" style="font-size:12.5px;">sarah.j@example.com</span></div>
+          <div class="order-info-item mt-2"><span class="order-info-label">Phone</span><span class="order-info-value">+1 (555) 234-5678</span></div>
+          <div class="order-info-item mt-2"><span class="order-info-label">Address</span><span class="order-info-value" style="font-size:12.5px;">142 Oak Lane, Portland, OR 97201</span></div>
+        </div>
+        <button class="btn-ghost w-100 mt-3 justify-content-center" data-page="customers" style="font-size:12.5px;">View Profile</button>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="card">
+      <div class="card-header-custom"><span class="card-title">Payment</span></div>
+      <div class="card-body-custom">
+        <div class="order-info-item"><span class="order-info-label">Method</span><span class="order-info-value">Visa ****4242</span></div>
+        <div class="order-info-item mt-2"><span class="order-info-label">Status</span><span class="badge-status badge-delivered mt-1">Paid</span></div>
+        <div class="order-info-item mt-2"><span class="order-info-label">Transaction ID</span><span class="order-info-value font-mono" style="font-size:12px;">txn_3PqRKL2eZvKYlo2C</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('.status-ctrl-btn').click(function(){
+  $('.status-ctrl-btn').removeClass('active-ctrl');
+  $(this).addClass('active-ctrl');
+});
+</script>

@@ -1,0 +1,102 @@
+<div class="page-header">
+  <div>
+    <div class="breadcrumb-wrap"><a href="#" data-page="dashboard">Home</a><span class="sep">/</span><span>Orders</span></div>
+    <h1 class="page-title">Orders</h1>
+    <p class="page-subtitle">Track and manage customer orders.</p>
+  </div>
+  <div class="filter-bar">
+    <button class="btn-ghost"><i class="fa-solid fa-download"></i> Export CSV</button>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+  <div class="inline-search" style="min-width:200px;">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="orderSearch" placeholder="Search by ID or customer…">
+  </div>
+  <select class="form-control-custom" style="width:auto; padding:7px 12px; font-size:12.5px;" id="statusFilter">
+    <option value="">All Status</option>
+    <option>Pending</option>
+    <option>Processing</option>
+    <option>Shipped</option>
+    <option>Delivered</option>
+    <option>Cancelled</option>
+  </select>
+</div>
+
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Date</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="ordersBody"></tbody>
+  </table>
+  <div class="pagination-wrap" id="ordersPagination"></div>
+</div>
+
+<script>
+(function(){
+  const orders = [
+    { id:'ORD-7821', customer:'Sarah Johnson', img:'https://i.pravatar.cc/28?img=1', date:'Mar 15, 2026', payment:'Visa ****4242', status:'Delivered', total:124.00 },
+    { id:'ORD-7820', customer:'James Rivera', img:'https://i.pravatar.cc/28?img=2', date:'Mar 15, 2026', payment:'PayPal', status:'Processing', total:89.50 },
+    { id:'ORD-7819', customer:'Priya Sharma', img:'https://i.pravatar.cc/28?img=3', date:'Mar 14, 2026', payment:'Mastercard ****1234', status:'Pending', total:210.00 },
+    { id:'ORD-7818', customer:'Carlos Mendez', img:'https://i.pravatar.cc/28?img=4', date:'Mar 14, 2026', payment:'Visa ****9876', status:'Cancelled', total:56.00 },
+    { id:'ORD-7817', customer:'Emily Chen', img:'https://i.pravatar.cc/28?img=5', date:'Mar 13, 2026', payment:'Apple Pay', status:'Shipped', total:175.20 },
+    { id:'ORD-7816', customer:'Omar Farouk', img:'https://i.pravatar.cc/28?img=6', date:'Mar 13, 2026', payment:'Visa ****5500', status:'Delivered', total:320.00 },
+    { id:'ORD-7815', customer:'Yuki Tanaka', img:'https://i.pravatar.cc/28?img=7', date:'Mar 12, 2026', payment:'PayPal', status:'Delivered', total:48.00 },
+    { id:'ORD-7814', customer:'Ana Costa', img:'https://i.pravatar.cc/28?img=8', date:'Mar 12, 2026', payment:'Stripe', status:'Processing', total:95.00 },
+    { id:'ORD-7813', customer:'Liam Wilson', img:'https://i.pravatar.cc/28?img=9', date:'Mar 11, 2026', payment:'Visa ****3311', status:'Pending', total:140.50 },
+    { id:'ORD-7812', customer:'Nina Patel', img:'https://i.pravatar.cc/28?img=10', date:'Mar 11, 2026', payment:'Mastercard ****8821', status:'Cancelled', total:67.00 },
+  ];
+
+  let currentPage = 1;
+  const perPage = 7;
+
+  const statusBadgeMap = {
+    'Pending':'badge-pending','Processing':'badge-processing','Shipped':'badge-shipped','Delivered':'badge-delivered','Cancelled':'badge-cancelled'
+  };
+
+  function getFiltered() {
+    const q = $('#orderSearch').val().toLowerCase();
+    const st = $('#statusFilter').val();
+    return orders.filter(o =>
+      (!q || o.id.toLowerCase().includes(q) || o.customer.toLowerCase().includes(q)) &&
+      (!st || o.status===st)
+    );
+  }
+
+  function render(page) {
+    currentPage = page;
+    const data = getFiltered();
+    const start = (page-1)*perPage, end = start+perPage;
+    const tbody = $('#ordersBody');
+    tbody.empty();
+    data.slice(start, end).forEach(o => {
+      tbody.append(`
+        <tr>
+          <td><span class="font-mono text-accent">#${o.id}</span></td>
+          <td><div class="d-flex align-items-center gap-2"><img src="${o.img}" class="rounded-circle" style="width:28px;height:28px;object-fit:cover;"><span>${o.customer}</span></div></td>
+          <td class="text-muted-custom">${o.date}</td>
+          <td class="text-muted-custom" style="font-size:12.5px;">${o.payment}</td>
+          <td><span class="badge-status ${statusBadgeMap[o.status]}">${o.status}</span></td>
+          <td class="font-mono">$${o.total.toFixed(2)}</td>
+          <td><button class="btn-icon success" data-page="order-details" title="View Details"><i class="fa-solid fa-eye"></i></button></td>
+        </tr>
+      `);
+    });
+    renderPagination('#ordersPagination', data.length, page, perPage, render);
+  }
+
+  $('#orderSearch, #statusFilter').on('input change', function(){ currentPage=1; render(1); });
+  render(1);
+})();
+</script>

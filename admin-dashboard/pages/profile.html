@@ -1,0 +1,129 @@
+<div class="page-header">
+  <div>
+    <div class="breadcrumb-wrap"><a href="#" data-page="dashboard">Home</a><span class="sep">/</span><span>Profile</span></div>
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Manage your account settings.</p>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Avatar & identity -->
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-body-custom text-center" style="padding-top:28px;">
+        <div class="profile-avatar-wrap mb-3">
+          <img src="https://i.pravatar.cc/88?img=12" class="profile-avatar" id="profileAvatarImg" alt="Admin">
+          <button class="avatar-edit-btn" id="avatarEditBtn" title="Change photo"><i class="fa-solid fa-camera"></i></button>
+        </div>
+        <input type="file" id="avatarUpload" style="display:none;" accept="image/*">
+        <h5 style="font-size:17px;font-weight:600;color:var(--text);margin-bottom:3px;">Alex Morgan</h5>
+        <p style="font-size:13px;color:var(--text-muted);">Super Admin</p>
+        <p style="font-size:12px;color:var(--text-faint);">alex.morgan@cubecomm.admin</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header-custom"><span class="card-title">Quick Stats</span></div>
+      <div class="card-body-custom">
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color:var(--border-light)!important;">
+          <span style="font-size:13px;color:var(--text-muted);">Active Since</span>
+          <span style="font-size:13px;color:var(--text);font-weight:500;">Oct 2023</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color:var(--border-light)!important;">
+          <span style="font-size:13px;color:var(--text-muted);">Last Login</span>
+          <span style="font-size:13px;color:var(--text);">Today, 9:14 AM</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center py-2">
+          <span style="font-size:13px;color:var(--text-muted);">Role</span>
+          <span class="badge-status badge-active">Super Admin</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forms -->
+  <div class="col-lg-8">
+    <!-- Personal Info -->
+    <div class="card mb-4">
+      <div class="card-header-custom"><span class="card-title">Personal Information</span></div>
+      <div class="card-body-custom">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label-custom">First Name</label>
+              <input type="text" class="form-control-custom" value="Alex">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label-custom">Last Name</label>
+              <input type="text" class="form-control-custom" value="Morgan">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label-custom">Email Address</label>
+              <input type="email" class="form-control-custom" value="alex.morgan@cubecomm.admin">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label-custom">Phone Number</label>
+              <input type="tel" class="form-control-custom" value="+1 (555) 100-2020">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label-custom">Bio</label>
+              <textarea class="form-control-custom" placeholder="Write a short bio…">Platform administrator with full access to all modules.</textarea>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+          <button class="btn-primary-custom"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="card">
+      <div class="card-header-custom"><span class="card-title">Change Password</span></div>
+      <div class="card-body-custom">
+        <div class="row g-3">
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label-custom">Current Password</label>
+              <input type="password" class="form-control-custom" placeholder="Enter current password">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label-custom">New Password</label>
+              <input type="password" class="form-control-custom" placeholder="At least 8 characters">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label-custom">Confirm Password</label>
+              <input type="password" class="form-control-custom" placeholder="Repeat new password">
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+          <button class="btn-ghost"><i class="fa-solid fa-lock"></i> Update Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('#avatarEditBtn').click(function(){ $('#avatarUpload').click(); });
+$('#avatarUpload').change(function(){
+  const file = this.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { $('#profileAvatarImg').attr('src', e.target.result); };
+  reader.readAsDataURL(file);
+});
+</script>

@@ -1,0 +1,168 @@
+<div class="page-header">
+  <div>
+    <div class="breadcrumb-wrap"><span>Home</span><span class="sep">/</span><span>Dashboard</span></div>
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Welcome back, Alex! Here's what's happening today.</p>
+  </div>
+  <div class="filter-bar">
+    <select class="form-control-custom" style="width:auto; padding:7px 12px; font-size:12.5px;">
+      <option>Last 7 days</option>
+      <option>Last 30 days</option>
+      <option>Last 90 days</option>
+    </select>
+    <button class="btn-primary-custom"><i class="fa-solid fa-download"></i> Export</button>
+  </div>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-label">Total Orders</span>
+        <span class="stat-value">2,841</span>
+        <span class="stat-change up"><i class="fa-solid fa-arrow-trend-up"></i> +12.4% vs last week</span>
+      </div>
+      <div class="stat-icon" style="background:var(--orange-dim); color:var(--orange);">
+        <i class="fa-solid fa-receipt"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-label">Total Revenue</span>
+        <span class="stat-value">$94.2k</span>
+        <span class="stat-change up"><i class="fa-solid fa-arrow-trend-up"></i> +8.1% vs last week</span>
+      </div>
+      <div class="stat-icon" style="background:var(--green-dim); color:var(--green);">
+        <i class="fa-solid fa-dollar-sign"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-label">Total Customers</span>
+        <span class="stat-value">1,204</span>
+        <span class="stat-change up"><i class="fa-solid fa-arrow-trend-up"></i> +4.7% vs last week</span>
+      </div>
+      <div class="stat-icon" style="background:var(--blue-dim); color:var(--blue);">
+        <i class="fa-solid fa-users"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-label">Total Products</span>
+        <span class="stat-value">386</span>
+        <span class="stat-change down"><i class="fa-solid fa-arrow-trend-down"></i> -2.3% vs last week</span>
+      </div>
+      <div class="stat-icon" style="background:var(--purple-dim); color:var(--purple);">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-3 mb-4">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header-custom">
+        <span class="card-title">Order Statistics</span>
+        <div class="filter-bar">
+          <button class="btn-ghost" style="padding:5px 11px; font-size:12px;">Weekly</button>
+          <button class="btn-ghost" style="padding:5px 11px; font-size:12px;">Monthly</button>
+        </div>
+      </div>
+      <div class="card-body-custom">
+        <div class="chart-placeholder" style="height:200px;">
+          <i class="fa-solid fa-chart-area"></i>
+          <span>Weekly Orders Chart</span>
+          <span style="font-size:11px; color:var(--text-faint);">Integrate with Chart.js for live data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-header-custom">
+        <span class="card-title">Revenue Trend</span>
+      </div>
+      <div class="card-body-custom">
+        <div class="chart-placeholder" style="height:200px;">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Revenue Trend</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="card mb-4">
+  <div class="card-header-custom">
+    <span class="card-title">Recent Orders</span>
+    <a href="#" class="btn-ghost" data-page="orders" style="font-size:12.5px; padding:6px 12px;">View All <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+  </div>
+  <div class="card-body-custom" style="padding:0;">
+    <div class="table-wrap" style="border:none; border-radius:0 0 var(--radius-lg) var(--radius-lg);">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="font-mono text-accent">#ORD-7821</span></td>
+            <td><div class="d-flex align-items-center gap-2"><img src="https://i.pravatar.cc/28?img=1" class="rounded-circle" style="width:28px;height:28px;object-fit:cover;"><span>Sarah Johnson</span></div></td>
+            <td class="text-muted-custom">Mar 15, 2026</td>
+            <td><span class="badge-status badge-delivered">Delivered</span></td>
+            <td class="font-mono">$124.00</td>
+            <td><button class="btn-icon success" data-page="order-details" title="View"><i class="fa-solid fa-eye"></i></button></td>
+          </tr>
+          <tr>
+            <td><span class="font-mono text-accent">#ORD-7820</span></td>
+            <td><div class="d-flex align-items-center gap-2"><img src="https://i.pravatar.cc/28?img=2" class="rounded-circle" style="width:28px;height:28px;object-fit:cover;"><span>James Rivera</span></div></td>
+            <td class="text-muted-custom">Mar 15, 2026</td>
+            <td><span class="badge-status badge-processing">Processing</span></td>
+            <td class="font-mono">$89.50</td>
+            <td><button class="btn-icon success" data-page="order-details" title="View"><i class="fa-solid fa-eye"></i></button></td>
+          </tr>
+          <tr>
+            <td><span class="font-mono text-accent">#ORD-7819</span></td>
+            <td><div class="d-flex align-items-center gap-2"><img src="https://i.pravatar.cc/28?img=3" class="rounded-circle" style="width:28px;height:28px;object-fit:cover;"><span>Priya Sharma</span></div></td>
+            <td class="text-muted-custom">Mar 14, 2026</td>
+            <td><span class="badge-status badge-pending">Pending</span></td>
+            <td class="font-mono">$210.00</td>
+            <td><button class="btn-icon success" data-page="order-details" title="View"><i class="fa-solid fa-eye"></i></button></td>
+          </tr>
+          <tr>
+            <td><span class="font-mono text-accent">#ORD-7818</span></td>
+            <td><div class="d-flex align-items-center gap-2"><img src="https://i.pravatar.cc/28?img=4" class="rounded-circle" style="width:28px;height:28px;object-fit:cover;"><span>Carlos Mendez</span></div></td>
+            <td class="text-muted-custom">Mar 14, 2026</td>
+            <td><span class="badge-status badge-cancelled">Cancelled</span></td>
+            <td class="font-mono">$56.00</td>
+            <td><button class="btn-icon success" data-page="order-details" title="View"><i class="fa-solid fa-eye"></i></button></td>
+          </tr>
+          <tr>
+            <td><span class="font-mono text-accent">#ORD-7817</span></td>
+            <td><div class="d-flex align-items-center gap-2"><img src="https://i.pravatar.cc/28?img=5" class="rounded-circle" style="width:28px;height:28px;object-fit:cover;"><span>Emily Chen</span></div></td>
+            <td class="text-muted-custom">Mar 13, 2026</td>
+            <td><span class="badge-status badge-shipped">Shipped</span></td>
+            <td class="font-mono">$175.20</td>
+            <td><button class="btn-icon success" data-page="order-details" title="View"><i class="fa-solid fa-eye"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

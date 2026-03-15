@@ -1,0 +1,81 @@
+<div class="page-header">
+  <div>
+    <div class="breadcrumb-wrap"><a href="#" data-page="dashboard">Home</a><span class="sep">/</span><span>Customers</span></div>
+    <h1 class="page-title">Customers</h1>
+    <p class="page-subtitle">View and manage your customer base.</p>
+  </div>
+  <button class="btn-ghost"><i class="fa-solid fa-download"></i> Export</button>
+</div>
+
+<div class="d-flex gap-2 mb-3 flex-wrap">
+  <div class="inline-search" style="min-width:220px;">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="customerSearch" placeholder="Search customers…">
+  </div>
+</div>
+
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Orders</th>
+        <th>Total Spent</th>
+        <th>Joined</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="customersBody"></tbody>
+  </table>
+  <div class="pagination-wrap" id="customersPagination"></div>
+</div>
+
+<script>
+(function(){
+  const customers = [
+    { id:1, name:'Sarah Johnson', email:'sarah.j@example.com', orders:14, spent:1842.00, joined:'Jan 2025', img:'https://i.pravatar.cc/28?img=1' },
+    { id:2, name:'James Rivera', email:'jrivera@example.com', orders:8, spent:740.50, joined:'Feb 2025', img:'https://i.pravatar.cc/28?img=2' },
+    { id:3, name:'Priya Sharma', email:'priya.sharma@example.com', orders:22, spent:3120.00, joined:'Nov 2024', img:'https://i.pravatar.cc/28?img=3' },
+    { id:4, name:'Carlos Mendez', email:'cmendez@example.com', orders:3, spent:215.00, joined:'Mar 2026', img:'https://i.pravatar.cc/28?img=4' },
+    { id:5, name:'Emily Chen', email:'emily.c@example.com', orders:17, spent:2200.00, joined:'Dec 2024', img:'https://i.pravatar.cc/28?img=5' },
+    { id:6, name:'Omar Farouk', email:'o.farouk@example.com', orders:31, spent:5600.00, joined:'Sep 2024', img:'https://i.pravatar.cc/28?img=6' },
+    { id:7, name:'Yuki Tanaka', email:'yuki@example.com', orders:5, spent:320.00, joined:'Jan 2026', img:'https://i.pravatar.cc/28?img=7' },
+    { id:8, name:'Ana Costa', email:'ana.costa@example.com', orders:9, spent:890.00, joined:'Oct 2024', img:'https://i.pravatar.cc/28?img=8' },
+  ];
+
+  let currentPage = 1;
+  const perPage = 6;
+
+  function getFiltered() {
+    const q = $('#customerSearch').val().toLowerCase();
+    return customers.filter(c => !q || c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q));
+  }
+
+  function render(page) {
+    currentPage = page;
+    const data = getFiltered();
+    const tbody = $('#customersBody');
+    tbody.empty();
+    data.slice((page-1)*perPage, page*perPage).forEach(c => {
+      tbody.append(`
+        <tr>
+          <td><div class="d-flex align-items-center gap-2">
+            <img src="${c.img}" class="rounded-circle" style="width:30px;height:30px;object-fit:cover;">
+            <span style="font-weight:500;">${c.name}</span>
+          </div></td>
+          <td class="text-muted-custom">${c.email}</td>
+          <td><span class="font-mono" style="color:var(--blue);">${c.orders}</span></td>
+          <td class="font-mono text-accent">$${c.spent.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
+          <td class="text-muted-custom" style="font-size:12.5px;">${c.joined}</td>
+          <td><button class="btn-icon success" data-page="customer-profile" title="View Profile"><i class="fa-solid fa-eye"></i></button></td>
+        </tr>
+      `);
+    });
+    renderPagination('#customersPagination', data.length, page, perPage, render);
+  }
+
+  $('#customerSearch').on('input', function(){ render(1); });
+  render(1);
+})();
+</script>

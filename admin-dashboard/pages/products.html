@@ -1,0 +1,195 @@
+<div class="page-header">
+  <div>
+    <div class="breadcrumb-wrap"><a href="#" data-page="dashboard">Home</a><span class="sep">/</span><span>Products</span></div>
+    <h1 class="page-title">Products</h1>
+    <p class="page-subtitle">Manage your product catalogue.</p>
+  </div>
+  <div class="filter-bar">
+    <a href="#" class="btn-ghost" data-page="product-create"><i class="fa-solid fa-plus"></i> Add Product</a>
+  </div>
+</div>
+
+<!-- Toolbar -->
+<div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+  <div class="inline-search" style="min-width:220px;">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="productSearch" placeholder="Search products…">
+  </div>
+  <div class="d-flex gap-2 align-items-center">
+    <select class="form-control-custom" style="width:auto; padding:7px 12px; font-size:12.5px;" id="categoryFilter">
+      <option value="">All Categories</option>
+      <option>Electronics</option>
+      <option>Clothing</option>
+      <option>Furniture</option>
+      <option>Accessories</option>
+    </select>
+    <div class="view-toggle">
+      <button class="view-btn active" id="listViewBtn" title="List View"><i class="fa-solid fa-list"></i></button>
+      <button class="view-btn" id="gridViewBtn" title="Grid View"><i class="fa-solid fa-grip"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- LIST VIEW -->
+<div id="listView">
+  <div class="table-wrap">
+    <table class="data-table" id="productsTable">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="productsBody">
+      </tbody>
+    </table>
+    <div class="pagination-wrap" id="productsPagination"></div>
+  </div>
+</div>
+
+<!-- GRID VIEW -->
+<div id="gridView" style="display:none;">
+  <div class="row g-3" id="productsGrid"></div>
+  <div class="d-flex justify-content-center mt-3" id="gridPagination"></div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red);margin-right:8px;"></i>Delete Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); font-size:14px;">Are you sure you want to delete <strong style="color:var(--text);" id="deleteProductName">this product</strong>? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-custom" style="background:var(--red);" id="confirmDeleteProduct">Delete Product</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const products = [
+    { id:1, name:'Wireless Headphones Pro', category:'Electronics', price:149.99, stock:42, status:'active', img:'https://picsum.photos/seed/p1/200/200' },
+    { id:2, name:'Classic Linen Shirt', category:'Clothing', price:59.00, stock:0, status:'inactive', img:'https://picsum.photos/seed/p2/200/200' },
+    { id:3, name:'Minimalist Desk Lamp', category:'Furniture', price:89.50, stock:18, status:'active', img:'https://picsum.photos/seed/p3/200/200' },
+    { id:4, name:'Leather Wallet Slim', category:'Accessories', price:45.00, stock:75, status:'active', img:'https://picsum.photos/seed/p4/200/200' },
+    { id:5, name:'Mechanical Keyboard TKL', category:'Electronics', price:129.00, stock:22, status:'active', img:'https://picsum.photos/seed/p5/200/200' },
+    { id:6, name:'Canvas Backpack', category:'Accessories', price:78.00, stock:0, status:'inactive', img:'https://picsum.photos/seed/p6/200/200' },
+    { id:7, name:'Noise Cancelling Earbuds', category:'Electronics', price:99.99, stock:58, status:'active', img:'https://picsum.photos/seed/p7/200/200' },
+    { id:8, name:'Bamboo Office Chair', category:'Furniture', price:299.00, stock:5, status:'active', img:'https://picsum.photos/seed/p8/200/200' },
+    { id:9, name:'Casual Hoodie', category:'Clothing', price:55.00, stock:120, status:'active', img:'https://picsum.photos/seed/p9/200/200' },
+    { id:10, name:'Smart Watch Series 3', category:'Electronics', price:199.00, stock:30, status:'active', img:'https://picsum.photos/seed/p10/200/200' },
+    { id:11, name:'Ceramic Coffee Mug', category:'Accessories', price:22.00, stock:200, status:'active', img:'https://picsum.photos/seed/p11/200/200' },
+    { id:12, name:'Running Sneakers X', category:'Clothing', price:110.00, stock:0, status:'inactive', img:'https://picsum.photos/seed/p12/200/200' },
+  ];
+
+  let filtered = [...products];
+  let currentPage = 1;
+  const perPage = 6;
+  let isListView = true;
+
+  function getFiltered() {
+    const q = $('#productSearch').val().toLowerCase();
+    const cat = $('#categoryFilter').val();
+    return products.filter(p =>
+      (!q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)) &&
+      (!cat || p.category === cat)
+    );
+  }
+
+  function renderList(data, page) {
+    const start = (page-1)*perPage, end = start+perPage;
+    const paged = data.slice(start, end);
+    const tbody = $('#productsBody');
+    tbody.empty();
+    if(!paged.length){
+      tbody.append('<tr><td colspan="6"><div class="empty-state"><i class="fa-solid fa-box-open"></i><h5>No products found</h5><p>Try adjusting your search.</p></div></td></tr>');
+      return;
+    }
+    paged.forEach(p => {
+      const statusBadge = p.status==='active' ? '<span class="badge-status badge-active">Active</span>' : '<span class="badge-status badge-inactive">Inactive</span>';
+      const stockDisplay = p.stock===0 ? '<span style="color:var(--red);">Out of stock</span>' : p.stock;
+      tbody.append(`
+        <tr>
+          <td><div class="d-flex align-items-center gap-2">
+            <img src="${p.img}" class="product-thumb" alt="${p.name}">
+            <span style="font-weight:500;">${p.name}</span>
+          </div></td>
+          <td class="text-muted-custom">${p.category}</td>
+          <td class="font-mono">$${p.price.toFixed(2)}</td>
+          <td>${stockDisplay}</td>
+          <td>${statusBadge}</td>
+          <td><div class="action-cell">
+            <button class="btn-icon" title="View" onclick="loadPage('product-details')"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn-icon" title="Edit" onclick="loadPage('product-create')"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn-icon danger" title="Delete" data-id="${p.id}" data-name="${p.name}" id="delBtn${p.id}"><i class="fa-solid fa-trash"></i></button>
+          </div></td>
+        </tr>
+      `);
+    });
+    renderPagination('#productsPagination', data.length, page, perPage, (pg) => { currentPage=pg; renderList(getFiltered(), pg); });
+  }
+
+  function renderGrid(data, page) {
+    const start = (page-1)*perPage, end = start+perPage;
+    const paged = data.slice(start, end);
+    const grid = $('#productsGrid');
+    grid.empty();
+    paged.forEach(p => {
+      const stockBadge = p.stock===0
+        ? '<span class="badge-status badge-inactive">Out of Stock</span>'
+        : `<span class="badge-status badge-active">${p.stock} in stock</span>`;
+      grid.append(`
+        <div class="col-6 col-md-4 col-xl-3">
+          <div class="product-card">
+            <img src="${p.img}" class="product-card-img" alt="${p.name}">
+            <div class="product-card-body">
+              <div class="product-card-name">${p.name}</div>
+              <div class="product-card-price">$${p.price.toFixed(2)}</div>
+              <div class="mt-2">${stockBadge}</div>
+              <div class="product-card-actions">
+                <button class="btn-icon" title="View" onclick="loadPage('product-details')"><i class="fa-solid fa-eye"></i></button>
+                <button class="btn-icon" title="Edit" onclick="loadPage('product-create')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-icon danger" title="Delete" data-id="${p.id}" data-name="${p.name}"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+    renderPagination('#gridPagination', data.length, page, perPage, (pg) => { currentPage=pg; renderGrid(getFiltered(), pg); });
+  }
+
+  function render() {
+    filtered = getFiltered();
+    if(isListView) renderList(filtered, currentPage);
+    else renderGrid(filtered, currentPage);
+  }
+
+  // Events
+  $('#productSearch, #categoryFilter').on('input change', function(){ currentPage=1; render(); });
+
+  $('#listViewBtn').click(function(){ isListView=true; $('#listView').show(); $('#gridView').hide(); $(this).addClass('active'); $('#gridViewBtn').removeClass('active'); render(); });
+  $('#gridViewBtn').click(function(){ isListView=false; $('#gridView').show(); $('#listView').hide(); $(this).addClass('active'); $('#listViewBtn').removeClass('active'); render(); });
+
+  // Delete modal delegation
+  $(document).on('click', '[data-id][data-name]', function(){
+    if(!$(this).hasClass('btn-icon')) return;
+    const name = $(this).data('name');
+    $('#deleteProductName').text(name);
+    new bootstrap.Modal(document.getElementById('deleteProductModal')).show();
+  });
+
+  render();
+})();
+</script>
